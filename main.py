@@ -1,7 +1,6 @@
 import json
 import os
 import google.generativeai as genai
-#from google.ai.generativelanguage_v1beta.types import content
 import streamlit as st
 genai.configure(api_key=os.environ["GEMINI_API_KEY"])
 
@@ -36,7 +35,7 @@ def generate_prompts(model, content_type, audience_type, delivery_method, conten
 
                 Here's an example of the desired JSON format:
                 [
-                "Prompt 1:        ",
+                "Prompt 1: ",
                 "Prompt 2: ",
                 "Prompt 3: ",
                 "Prompt 4: "
@@ -52,10 +51,6 @@ def generate_prompts(model, content_type, audience_type, delivery_method, conten
                                             Target audience: {audience_type}
                                             Delivery Method: {delivery_method}
                                             Target industry: {target_industry}""")
-        
-        #print("Response text:", response.text)
-        #st.subheader("Generated Prompts")
-        #st.write(response.text)
         
         # Assuming the response is a JSON string containing a list of prompts
         # Extract prompts from JSON response
@@ -172,13 +167,6 @@ def main():
     if st.button("Submit"):
         with st.spinner("Generating prompts..."):
             prompts = generate_prompts(model, content_type, audience_type, delivery_method, content_theme, target_industry)
-            print("Debug - Full prompts list:", prompts)  # Debug print
-            print("Debug - Length of prompts:", len(prompts))  # Debug print
-            
-            if prompts and len(prompts) >= 2:  # Check if we have at least 2 elements
-                print(prompts[1])
-            #else:
-                #st.error(f"Not enough prompts generated. Only got {len(prompts)} prompts.")
 
         if prompts:
             st.subheader("Generated Prompts")
