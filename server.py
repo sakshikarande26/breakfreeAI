@@ -1,9 +1,11 @@
+# server.py
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import os
 from dotenv import load_dotenv
 import google.generativeai as genai
 import json
+from fastapi.middleware.cors import CORSMiddleware
 
 # Load environment variables
 load_dotenv()
@@ -11,6 +13,18 @@ genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
 # Create FastAPI app instance
 app = FastAPI()
+
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Replace "*" with specific origins like ["http://localhost:8501"] for security
+    allow_credentials=True,
+    allow_methods=["*"],  # You can restrict this to specific methods like ["GET", "POST"]
+    allow_headers=["*"],  # You can restrict this to specific headers
+)
+
+@app.get("/")
 
 # Define the request model
 class GeneratePromptsRequest(BaseModel):
@@ -22,6 +36,7 @@ class GeneratePromptsRequest(BaseModel):
 
 class PromptRequest(BaseModel):
     prompt: str
+
 
 # Function to extract numbered points from response
 def extract_numbered_points(text):
@@ -80,7 +95,7 @@ async def generate_prompts(request: GeneratePromptsRequest):
 
 # Function to ask a specific prompt to Gemini API
 @app.post("/ask-gemini/")
-async def ask_gemini(prompt_request: PromptRequest):
+def ask_gemini(prompt_request: PromptRequest):
     try:
         selected_prompt = prompt_request.prompt
 
@@ -98,8 +113,3 @@ async def ask_gemini(prompt_request: PromptRequest):
         return {"response": response.text}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error: {e}")
-
-# Add a root route to avoid 404 errors for "/"
-@app.get("/")
-async def read_root():
-    return {"message": "Welcome to the Gemini API integration!"}
