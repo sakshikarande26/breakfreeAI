@@ -6,25 +6,44 @@ from dotenv import load_dotenv
 import google.generativeai as genai
 import json
 from fastapi.middleware.cors import CORSMiddleware
+import random
+import logging
+
 
 # Load environment variables
 load_dotenv()
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+
+# Function to randomly select an API key
+def get_random_api_key():
+    gemini_api_keys = os.getenv("GEMINI_API_KEYS")
+    if gemini_api_keys:
+        api_keys = gemini_api_keys.split(",")
+        selected_key = random.choice(api_keys)  # Randomly select one key
+        logging.info(f"Selected API key: {selected_key}")  # Log the selected key
+        return selected_key
+    else:
+        raise ValueError("GEMINI_API_KEYS not set in the .env file.")
+
+# Configure Gemini API with a random API key
+api_key = get_random_api_key()
+genai.configure(api_key=api_key)
+
 
 # Create FastAPI app instance
 app = FastAPI()
 
-
-# Add CORS middleware
+#CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Replace "*" with specific origins like ["http://localhost:8501"] for security
+    allow_origins=["*"],
     allow_credentials=True,
-    allow_methods=["*"],  # You can restrict this to specific methods like ["GET", "POST"]
-    allow_headers=["*"],  # You can restrict this to specific headers
+    allow_methods=["*"],  # can restrict this to specific methods like ["GET", "POST"]
+    allow_headers=["*"],
 )
 
 @app.get("/")
+async def read_root():
+    return {"message": "Welcome to my API!"}
 
 # Define the request model
 class GeneratePromptsRequest(BaseModel):
