@@ -88,29 +88,42 @@ async def generate_prompts(request: GeneratePromptsRequest):
             system_instruction="You are expert at prompt engineering and your goal is to write prompts helping the trainers to create professional and relevant content."
         )
 
+        # Extracting parameters from request
+        content_type = request.content_type
+        audience_type = request.audience_type
+        delivery_method = request.delivery_method
+        content_theme = request.content_theme
+        target_industry = request.target_industry
+
+        prompt_template = f"""Generate 4 content creation prompts to help trainers generate content based on the following inputs:
+            \nContent Type - {content_type}
+            \nAudience Type - {audience_type}
+            \nDelivery Method - {delivery_method}
+            \nContent Theme - {content_theme}
+            \nTarget Industry - {target_industry}
+            \nFor each prompt, provide:
+            1. A detailed version for content generation
+            2. A brief 2-3 line summary for display
+            \nPlease format your response as a JSON array where each element is an object with 'detailed_prompt' and 'summary' keys."""
+
         chat_session = model.start_chat(
-            history=[
-                {
-                    "role": "user",
-                    "parts": [
-                        f"""Generate 4 content creation prompts to help trainers generate content based on the following inputs:
-                        \nContent Type - {request.content_type}\nAudience Type - {request.audience_type}\nDelivery Method - {request.delivery_method}
-                        \nContent Theme - {request.content_theme}\nTarget Industry - {request.target_industry}
-                        \nPlease format your response as a JSON array."""
-                    ],
-                }
-            ]
+            history=[{
+                "role": "user",
+                "parts": [prompt_template]
+            }]
         )
+
         response = chat_session.send_message("Generate the content creation prompts.")
         prompts = extract_numbered_points(response.text)
 
         if not prompts:
-            return {"error": "Error extracting prompts. Please check the API response format."}
+            return [{"detailed_prompt": "Error extracting prompts.", "summary": "Error"}]
 
-        return {"prompts": prompts}
+        return prompts
 
     except Exception as e:
-        return {"error": f"Error generating prompts: {e}"}
+        logging.error(f"Error generating prompts: {e}")
+        return [{"detailed_prompt": f"Error: {e}", "summary": "Error"}]
 
 # Function to ask a specific prompt to Gemini API
 @app.post("/ask-gemini/")
