@@ -1,6 +1,8 @@
-streamlit
-google-generativeai
-python-dotenv
-protobuf
-uvicorn
 fastapi
+uvicorn
+pydantic
+python-dotenv
+phidata
+streamlit
+requests
+groq
