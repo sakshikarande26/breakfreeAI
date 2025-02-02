@@ -6,14 +6,11 @@ from phi.agent import Agent
 from phi.model.groq import Groq
 from fastapi.middleware.cors import CORSMiddleware
 
-# Load API key from environment variables
 load_dotenv()
 api_key = os.getenv('GROQ_API_KEY')
 
-# Initialize FastAPI app
 app = FastAPI()
 
-# Enable CORS (allows frontend to call API)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  
@@ -22,7 +19,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Request model
 class PromptRequest(BaseModel):
     content_type: str
     audience_type: str
@@ -30,9 +26,9 @@ class PromptRequest(BaseModel):
     content_theme: str
     target_industry: str
 
-# Response model for summarization
-class SummarizeRequest(PromptRequest):
-    prompts: list  # List of generated prompts
+
+class ContentRequest(PromptRequest):
+    prompt: str  
 
 @app.get("/")
 async def read_root():
@@ -52,7 +48,7 @@ async def generate_prompts(request: PromptRequest):
 
         response = prompt_agent.run("generate 4 distinct prompts that can be used to generate relevant detailed content without title")
         
-        return {"prompts": response.content.split("\n")}  # Return as JSON dictionary
+        return {"prompts": response.content.split("\n")}  
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -71,7 +67,25 @@ async def summarize_prompts(request: SummarizeRequest):
 
         response = summary_agent.run("Generate a concise summary for each of the provided prompts and give heading as summary (1/2/3/4): (generated summaries)")
         
-        return {"summaries": response.content.split("\n")}  # Return as JSON dictionary
+        return {"summaries": response.content.split("\n")}  
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
+
+@app.post("/generate_content/")
+async def generate_content(request: ContentRequest):
+    try:
+        content_agent = Agent(
+            name="Content Generation Agent",
+            model=Groq(id="llama-3.3-70b-versatile"),
+            markdown=True,
+            instructions=f"Generate detailed content based on the following prompt: {request.prompt}",
+            description="You are an agent that generates comprehensive and structured training content based on the provided detailed prompt."
+        )
+
+        response = content_agent.run(f"Generate detailed content based on the following prompt: {request.prompt}")
+        return {"content": response.content.split("\n")}
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
