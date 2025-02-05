@@ -2,7 +2,7 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from dotenv import load_dotenv
 import os
-from phi.agent import Agent
+from phi.agent import Agent, RunResponse
 from phi.model.groq import Groq
 from fastapi.middleware.cors import CORSMiddleware
 import json
@@ -27,7 +27,6 @@ class PromptRequest(BaseModel):
     content_theme: str
     target_industry: str
 
-
 class ContentRequest(BaseModel):
     prompts: str  
 
@@ -38,48 +37,66 @@ async def read_root():
 
 @app.post("/generate_prompts/")
 async def generate_prompts(request: PromptRequest):
-    try:
-        prompt_agent = Agent(
-            name="Prompt Generation Agent",
-            model=Groq(id="llama-3.3-70b-versatile"),
-            markdown=True,
-            instructions=f"""
-                Generate 4 distinct content creation prompts for trainers to help them generate content based on the following user inputs:
-                - Content Type: {request.content_type}
-                - Audience Type: {request.audience_type}
-                - Delivery Method: {request.delivery_method}
-                - Content Theme: {request.content_theme}
-                - Target Industry: {request.target_industry}
+    prompt_agent = Agent(
+        name="Prompt Generation Agent",
+        model=Groq(id="llama-3.3-70b-versatile"),
+        markdown=True,
+        instructions=f"""
+            Generate strictly 4 distinct content creation prompts for trainers to help them generate content based on the following user inputs:
+            - Content Type: {request.content_type}
+            - Audience Type: {request.audience_type}
+            - Delivery Method: {request.delivery_method}
+            - Content Theme: {request.content_theme}
+            - Target Industry: {request.target_industry}
+            
+            For each prompt, provide:
+            1. A **detailed prompt** (without a title) that explains the type of content to create based on the user input.
+            2. A **short 2-3 sentence version of the above prompt summarising it and describing the essence of the prompt including the key details from the user inputs above. Generate the content in such a way that viewing either of them individually can convey the same idea (meaning dont start the summary with "this prompt states that.." etc). Such that it will look like 
+               Prompt:
+               Summary:
+            
+            The final output should be in the key: value pairs format:
+            "Prompt 1: (Detailed prompt here)
+            Summary 1: (Summary for the first prompt here)"
+            "Prompt 2: (Detailed prompt here)
+            Summary 2: (Summary for the second prompt here)"
+            "Prompt 3: (Detailed prompt here)
+            Summary 3: (Summary for the third prompt here)"
+            "Prompt 4: (Detailed prompt here)
+            Summary 4: (Summary for the fourth prompt here)"
+
+            
+        """,
+        description="You are an AI agent that helps trainers generate tailored content for employee training sessions. Use the inputs provided to create prompts and summaries suitable for the given context without a heading like '### Prompts and Summaries for Training Modules on Leadership and Management'"
+    )
+
+    response = prompt_agent.run("generate 4 distinct prompts with their individual summaries that can be used to generate relevant detailed content without title ")
+    structured_response = response.content.split("\n")
+    
+    result = {}
+    
+    # Adjusted loop to correctly index keys and strip prefixes
+    for i in range(0, len(structured_response), 3):
+        if structured_response[i] != "" and structured_response[i + 1] != "":
+            key = f"key_{(i // 3) + 1}"
+            
+            # Clean up prompts and summaries by removing any prefix
+            detailed_prompt = structured_response[i].replace("* ", "").strip()
+            summary_text = structured_response[i + 1].replace("* ", "").strip()
+            
+            # Remove prefixes from detailed_prompt and summary_text
+            if ": " in detailed_prompt:
+                detailed_prompt = detailed_prompt.split(": ", 1)[1]
                 
-                For each prompt, provide:
-                1. A **detailed prompt** (without a title) that explains the type of content to create.
-                2. A **short 2-3 sentence summary** describing the essence of the prompt including the key details from the user inputs above.
-                
-                The final output should be in the format:
-                Prompt 1: (Detailed prompt here)
-                Summary 1: (Summary for the first prompt here)
-                Prompt 2: (Detailed prompt here)
-                Summary 2: (Summary for the second prompt here)
-                Prompt 3: (Detailed prompt here)
-                Summary 3: (Summary for the third prompt here)
-                Prompt 4: (Detailed prompt here)
-                Summary 4: (Summary for the fourth prompt here)
-                
-                Ensure the response is structured properly so it can be parsed into JSON format.
-            """,
-            description="You are an AI agent that helps trainers generate tailored content for employee training sessions. Use the inputs provided to create structured prompts and summaries."
-        )
-
-        # Run the agent to generate the response
-        response = prompt_agent.run("Generate 4 distinct prompts with summaries.")
-
-        # Parse the response into structured key-value pairs
-        generated_prompts = response.content.strip().split("\n")
-
-        return generated_prompts
-
-    except Exception as e:
-        return {"error": str(e)}
+            if ": " in summary_text:
+                summary_text = summary_text.split(": ", 1)[1]
+            
+            result[key] = {
+                "prompt": detailed_prompt,
+                "summary": summary_text
+            }
+    
+    return result
 
 
 @app.post("/generate_content/")
