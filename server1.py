@@ -42,7 +42,7 @@ async def generate_prompts(request: PromptRequest):
         model=Groq(id="llama-3.3-70b-versatile"),
         markdown=True,
         instructions=f"""
-            Generate strictly 4 distinct content creation prompts for trainers to help them generate content based on the following user inputs:
+            Strictly Generate 4 distinct content creation prompts for trainers to help them generate content based on the following user inputs:
             - Content Type: {request.content_type}
             - Audience Type: {request.audience_type}
             - Delivery Method: {request.delivery_method}
@@ -50,8 +50,8 @@ async def generate_prompts(request: PromptRequest):
             - Target Industry: {request.target_industry}
             
             For each prompt, provide:
-            1. A **detailed prompt** (without a title) that explains the type of content to create based on the user input.
-            2. A **short 2-3 sentence version of the above prompt summarising it and describing the essence of the prompt including the key details from the user inputs above. Generate the content in such a way that viewing either of them individually can convey the same idea (meaning dont start the summary with "this prompt states that.." etc). Such that it will look like 
+            1. A detailed prompt (without a title) that explains the type of content to create based on the user input.
+            2. A short 2 to 3 sentences version of the above prompt summarising it and describing the essence of the original prompt including the key details from the user inputs above. Generate the content in such a way that when viewing either prompt or summary individually can convey the same idea (remeber to not start the summary with "this prompt states that.." etc). Such that it will look like 
                Prompt:
                Summary:
             
@@ -76,7 +76,7 @@ async def generate_prompts(request: PromptRequest):
     result = {}
     
     # Adjusted loop to correctly index keys and strip prefixes
-    for i in range(0, len(structured_response), 3):
+    for i in range(0, len(structured_response), 4):
         if structured_response[i] != "" and structured_response[i + 1] != "":
             key = f"key_{(i // 3) + 1}"
             
