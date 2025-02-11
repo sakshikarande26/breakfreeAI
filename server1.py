@@ -60,20 +60,20 @@ def create_prompt_template():
     {{
       "prompts": [
         {{
-          "prompt 1": "Detailed prompt 1 here",
-          "summary 1": "Summary for prompt 1 here"
+          "prompt1": "Detailed prompt 1 here",
+          "summary1": "Summary for prompt 1 here"
         }},
         {{
-          "prompt 2": "Detailed prompt 2 here",
-          "summary 2": "Summary for prompt 2 here"
+          "prompt2": "Detailed prompt 2 here",
+          "summary2": "Summary for prompt 2 here"
         }},
         {{
-          "prompt 3": "Detailed prompt 3 here",
-          "summary 3": "Summary for prompt 3 here"
+          "prompt3": "Detailed prompt 3 here",
+          "summary3": "Summary for prompt 3 here"
         }},
         {{
-          "prompt 4": "Detailed prompt 4 here",
-          "summary 4": "Summary for prompt 4 here"
+          "prompt4": "Detailed prompt 4 here",
+          "summary4": "Summary for prompt 4 here"
         }}
       ]
     }}
