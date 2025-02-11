@@ -10,6 +10,8 @@ from langchain.prompts import MessagesPlaceholder
 from langchain.memory import ConversationBufferMemory
 from langchain_groq import ChatGroq
 from langchain_core.output_parsers import JsonOutputParser
+from fastapi.middleware.cors import CORSMiddleware
+
 
 # Load API Key from .env
 load_dotenv()
@@ -17,6 +19,14 @@ api_key = os.getenv("GROQ_API_KEY")
 
 # Initialize FastAPI
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  
+    allow_credentials=True,
+    allow_methods=["*"],  
+    allow_headers=["*"],
+)
 
 # Initialize ChatGroq LLM
 llm = ChatGroq(
