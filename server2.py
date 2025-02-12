@@ -3,8 +3,7 @@ from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.responses import JSONResponse
 from dotenv import load_dotenv
 import re
-
-# Import LangChain-related components
+from pydantic import BaseModel
 from langchain_community.document_loaders.csv_loader import UnstructuredCSVLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_core.vectorstores import InMemoryVectorStore
@@ -27,6 +26,9 @@ app.add_middleware(
     allow_methods=["*"],  
     allow_headers=["*"],
 )
+
+class ChatRequest(BaseModel):
+    user_query: str
 
 PROMPT_TEMPLATE_1 = """1. Objective:
         You are responsible for analyzing the content of a given CSV file and 
@@ -223,7 +225,7 @@ def default_answer_2():
 # ----------------- Endpoints ----------------- #
 
 # Endpoint 1: File Upload
-@app.post("/upload")
+@app.post("/upload_file")
 async def upload_document(file: UploadFile = File(...)):
     """
     Accepts a PDF or CSV file upload, processes the file (saves, loads, chunks, and indexes),
@@ -242,7 +244,7 @@ async def upload_document(file: UploadFile = File(...)):
     
     return JSONResponse(content={"message": "File processed successfully."})
 
-@app.post("/evaluate/done")
+@app.post("/evaluate_and_score")
 async def evaluate_done():
     """
     Returns a JSON response containing:
@@ -258,12 +260,11 @@ async def evaluate_done():
     lesson_plan_eval = default_answer()
     overall_score_eval = default_answer_2()
 
-    # Extract "Total Score: 110/110"
-    match = re.search(r"Total Score: (\d+/\d+)", overall_score_eval)
+    # Extract "Total Score: X/Y" and capture only X
+    match = re.search(r"Total Score: (\d+)/\d+", overall_score_eval)
 
-    # Extract only the score part (e.g., "110/110")
+    # Extract only X (the first number before '/')
     total_score = match.group(1) if match else "N/A"
-
 
     result = {
         "lesson_plan_evaluation": lesson_plan_eval,
@@ -271,6 +272,33 @@ async def evaluate_done():
     }
     return JSONResponse(content=result)
 
+@app.post("/chat")
+async def chat(user_query: str):
+    """
+    Enables chat based on the evaluated lesson plan and indexed documents.
+    Uses PROMPT_TEMPLATE_3 to give concise, factual answers.
+    Returns responses limited to 3 sentences (based on retrieved context).
+    """
+    if not file_processed:
+        raise HTTPException(
+            status_code=400,
+            detail="No file has been processed. Please upload a file first."
+        )
+
+    # Retrieve relevant document context
+    relevant_docs = find_related_documents(user_query)
+    context_text = "\n\n".join([doc.page_content for doc in relevant_docs])
+
+    # Generate response using the refined prompt
+    chat_prompt = PromptTemplate.from_template(PROMPT_TEMPLATE_3)
+    response_chain = chat_prompt | LANGUAGE_MODEL
+
+    response = response_chain.invoke({
+        "user_query": user_query,
+        "document_context": context_text
+    })
+
+    return JSONResponse(content={"response": response.content})
 
 @app.get("/")
 async def read_root():
