@@ -257,16 +257,20 @@ async def evaluate_done():
     
     lesson_plan_eval = default_answer()
     overall_score_eval = default_answer_2()
-    
-    # Extract total score using regex
-    match = re.search(r"\*\*Total Score: \d+/\d+\*\*", overall_score_eval)
-    total_score = match.group(0).strip("**") if match else "Total Score: N/A"
-    
+
+    # Extract "Total Score: 110/110"
+    match = re.search(r"Total Score: (\d+/\d+)", overall_score_eval)
+
+    # Extract only the score part (e.g., "110/110")
+    total_score = match.group(1) if match else "N/A"
+
+
     result = {
         "lesson_plan_evaluation": lesson_plan_eval,
         "overall_score": total_score
     }
     return JSONResponse(content=result)
+
 
 @app.get("/")
 async def read_root():
