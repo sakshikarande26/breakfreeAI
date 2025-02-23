@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FastAPI Chat Interface</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        input, button, textarea, select { width: 100%; margin-top: 10px; padding: 10px; }
+        .hidden { display: none; }
+        .chat-box { border: 1px solid #ccc; padding: 10px; height: 300px; overflow-y: auto; margin-top: 10px; }
+        .user-message { text-align: right; color: blue; }
+        .ai-message { text-align: left; color: green; }
+    </style>
+</head>
+<body>
+    <h2>Generate Training Prompts</h2>
+    <form id="promptForm">
+        <input type="text" id="content_type" placeholder="Content Type" required>
+        <input type="text" id="audience_type" placeholder="Audience Type" required>
+        <input type="text" id="delivery_method" placeholder="Delivery Method" required>
+        <input type="text" id="content_theme" placeholder="Content Theme" required>
+        <input type="text" id="target_industry" placeholder="Target Industry" required>
+        <button type="submit">Generate Prompts</button>
+    </form>
+    
+    <h3>Select a Summary:</h3>
+    <select id="summaryDropdown" onchange="showFullPrompt()">
+        <option value="">Select a summary</option>
+    </select>
+    <h3>Full Prompt:</h3>
+    <pre id="fullPrompt" class="hidden"></pre>
+    
+    <h2>Chat with AI</h2>
+    <div class="chat-box" id="chatBox"></div>
+    <form id="chatForm">
+        <textarea id="user_input" placeholder="Enter your message..." required></textarea>
+        <button type="submit">Send</button>
+    </form>
+    
+    <script>
+        let prompts = [];
+
+        document.getElementById("promptForm").onsubmit = async function(event) {
+            event.preventDefault();
+            const data = {
+                content_type: document.getElementById("content_type").value,
+                audience_type: document.getElementById("audience_type").value,
+                delivery_method: document.getElementById("delivery_method").value,
+                content_theme: document.getElementById("content_theme").value,
+                target_industry: document.getElementById("target_industry").value
+            };
+            const response = await fetch("http://127.0.0.1:8000/generate-prompts", {  // Updated port
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            });
+            const result = await response.json();
+            prompts = result.prompts;
+            updateDropdown();
+        };
+
+        function updateDropdown() {
+            const dropdown = document.getElementById("summaryDropdown");
+            dropdown.innerHTML = '<option value="">Select a summary</option>';
+            prompts.forEach((p, index) => {
+                let option = document.createElement("option");
+                option.value = index;
+                option.textContent = p.summary; // Corrected key
+                dropdown.appendChild(option);
+            });
+        }
+
+        function showFullPrompt() {
+            const selectedIndex = document.getElementById("summaryDropdown").value;
+            const fullPromptElement = document.getElementById("fullPrompt");
+            const userInput = document.getElementById("user_input");
+            if (selectedIndex !== "") {
+                const selectedPrompt = prompts[selectedIndex].prompt; // Corrected key
+                fullPromptElement.textContent = selectedPrompt;
+                fullPromptElement.classList.remove("hidden");
+                userInput.value = selectedPrompt;
+            } else {
+                fullPromptElement.classList.add("hidden");
+                userInput.value = "";
+            }
+        }
+
+        document.getElementById("chatForm").onsubmit = async function(event) {
+            event.preventDefault();
+            const userInput = document.getElementById("user_input").value;
+            if (!userInput) return;
+
+            // Append user message to chat box
+            appendMessage("You: " + userInput, "user-message");
+            
+            const data = { session_id: "default", user_input: userInput };  // Added session_id
+            const response = await fetch("http://127.0.0.1:8000/chat", {  // Updated port
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            });
+            const aiResponse = await response.json();  // Corrected response parsing
+            
+            // Append AI response to chat box
+            appendMessage("AI: " + aiResponse.response, "ai-message");
+            document.getElementById("user_input").value = "";
+        };
+
+        function appendMessage(message, className) {
+            const chatBox = document.getElementById("chatBox");
+            const messageElement = document.createElement("div");
+            messageElement.textContent = message;
+            messageElement.classList.add(className);
+            chatBox.appendChild(messageElement);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    </script>
+</body>
+</html>
+
+
+<!-- uvicorn server1:app --host 127.0.0.1 --port 5000 --reload this is running command -->
