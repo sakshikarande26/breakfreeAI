@@ -1,6 +1,7 @@
-streamlit
-google-generativeai
-python-dotenv
-protobuf
-uvicorn
 fastapi
+uvicorn
+python-dotenv
+langchain
+langchain-core
+langchain-groq
+pydantic
