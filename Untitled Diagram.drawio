@@ -1,9 +1,30 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.3 Safari/605.1.15" version="26.1.0">
   <diagram name="Page-1" id="P_S6GsHN6DqtBIm2xL0q">
-    <mxGraphModel>
+    <mxGraphModel dx="795" dy="563" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+        <mxCell id="6YaIAryfn6PBqcQ6-zPC-3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="6YaIAryfn6PBqcQ6-zPC-1" target="6YaIAryfn6PBqcQ6-zPC-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="6YaIAryfn6PBqcQ6-zPC-1" value="Upload PDF" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;" vertex="1" parent="1">
+          <mxGeometry x="140" y="55" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="6YaIAryfn6PBqcQ6-zPC-5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="6YaIAryfn6PBqcQ6-zPC-2" target="6YaIAryfn6PBqcQ6-zPC-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="6YaIAryfn6PBqcQ6-zPC-2" value="Extract text from PDF&lt;div&gt;(pdfplumber)&lt;/div&gt;" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="310" y="40" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="6YaIAryfn6PBqcQ6-zPC-9" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="6YaIAryfn6PBqcQ6-zPC-4" target="6YaIAryfn6PBqcQ6-zPC-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="6YaIAryfn6PBqcQ6-zPC-4" value="Classification Stage 1&lt;div&gt;[Training Proposal]&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="190" y="140" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="6YaIAryfn6PBqcQ6-zPC-8" value="&lt;div style=&quot;text-align: justify;&quot;&gt;-Evaluate content using LLM (Llama-3.3-70B)&amp;nbsp;&lt;/div&gt;&lt;div style=&quot;text-align: justify;&quot;&gt;-Binary scoring per rubric criterion (1 if met, 0 otherwise)&amp;nbsp;&lt;/div&gt;&lt;div style=&quot;text-align: justify;&quot;&gt;-Calculate total score for category 1&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=1;align=left;" vertex="1" parent="1">
+          <mxGeometry x="150" y="230" width="200" height="150" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
