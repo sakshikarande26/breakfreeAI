@@ -7,23 +7,99 @@
         <mxCell id="6YaIAryfn6PBqcQ6-zPC-3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="6YaIAryfn6PBqcQ6-zPC-1" target="6YaIAryfn6PBqcQ6-zPC-2">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="6YaIAryfn6PBqcQ6-zPC-1" value="Upload PDF" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;" vertex="1" parent="1">
+        <mxCell id="6YaIAryfn6PBqcQ6-zPC-1" value="Upload PDF" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
           <mxGeometry x="140" y="55" width="110" height="30" as="geometry" />
         </mxCell>
         <mxCell id="6YaIAryfn6PBqcQ6-zPC-5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="6YaIAryfn6PBqcQ6-zPC-2" target="6YaIAryfn6PBqcQ6-zPC-4">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="6YaIAryfn6PBqcQ6-zPC-2" value="Extract text from PDF&lt;div&gt;(pdfplumber)&lt;/div&gt;" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="6YaIAryfn6PBqcQ6-zPC-2" value="Extract text from PDF&lt;div&gt;(pdfplumber)&lt;/div&gt;" style="whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
           <mxGeometry x="310" y="40" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="6YaIAryfn6PBqcQ6-zPC-9" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="6YaIAryfn6PBqcQ6-zPC-4" target="6YaIAryfn6PBqcQ6-zPC-8">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="6YaIAryfn6PBqcQ6-zPC-4" value="Classification Stage 1&lt;div&gt;[Training Proposal]&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="190" y="140" width="120" height="60" as="geometry" />
+        <mxCell id="6YaIAryfn6PBqcQ6-zPC-4" value="Classification Category 1&lt;div&gt;[Training Proposal]&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="180" y="140" width="140" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="6YaIAryfn6PBqcQ6-zPC-8" value="&lt;div style=&quot;text-align: justify;&quot;&gt;-Evaluate content using LLM (Llama-3.3-70B)&amp;nbsp;&lt;/div&gt;&lt;div style=&quot;text-align: justify;&quot;&gt;-Binary scoring per rubric criterion (1 if met, 0 otherwise)&amp;nbsp;&lt;/div&gt;&lt;div style=&quot;text-align: justify;&quot;&gt;-Calculate total score for category 1&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=1;align=left;" vertex="1" parent="1">
-          <mxGeometry x="150" y="230" width="200" height="150" as="geometry" />
+        <mxCell id="6YaIAryfn6PBqcQ6-zPC-11" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="6YaIAryfn6PBqcQ6-zPC-8" target="6YaIAryfn6PBqcQ6-zPC-10">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="380" y="280" />
+              <mxPoint x="380" y="170" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="6YaIAryfn6PBqcQ6-zPC-16" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="6YaIAryfn6PBqcQ6-zPC-8" target="6YaIAryfn6PBqcQ6-zPC-15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="6YaIAryfn6PBqcQ6-zPC-8" value="&lt;div style=&quot;text-align: justify;&quot;&gt;-&amp;gt; Evaluate content using LLM&amp;nbsp;&lt;/div&gt;&lt;div style=&quot;text-align: justify;&quot;&gt;&amp;nbsp;(Llama-3.3-70B)&amp;nbsp;&lt;/div&gt;&lt;div style=&quot;text-align: justify;&quot;&gt;-&amp;gt; Binary scoring per rubric criterion&amp;nbsp;&lt;/div&gt;&lt;div style=&quot;text-align: justify;&quot;&gt;&amp;nbsp;(1 if met, 0 otherwise)&amp;nbsp;&lt;/div&gt;&lt;div style=&quot;text-align: justify;&quot;&gt;-&amp;gt; Calculate total score&amp;nbsp;&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=1;align=left;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="150" y="230" width="200" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="6YaIAryfn6PBqcQ6-zPC-13" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="6YaIAryfn6PBqcQ6-zPC-10" target="6YaIAryfn6PBqcQ6-zPC-12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="6YaIAryfn6PBqcQ6-zPC-10" value="Classification Category 2&lt;div&gt;[ E-learning Scripts]&lt;/div&gt;" style="whiteSpace=wrap;html=1;align=left;rounded=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="430" y="140" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="6YaIAryfn6PBqcQ6-zPC-12" value="&lt;div style=&quot;caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: Helvetica; font-size: 12px; font-style: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: auto; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration: none; text-align: justify;&quot;&gt;-&amp;gt; Evaluate content using LLM&amp;nbsp;&lt;/div&gt;&lt;div style=&quot;caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: Helvetica; font-size: 12px; font-style: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: auto; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration: none; text-align: justify;&quot;&gt;&amp;nbsp;(Llama-3.3-70B)&amp;nbsp;&lt;/div&gt;&lt;div style=&quot;caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: Helvetica; font-size: 12px; font-style: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: auto; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration: none; text-align: justify;&quot;&gt;-&amp;gt; Binary scoring per rubric criterion&amp;nbsp;&lt;/div&gt;&lt;div style=&quot;caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: Helvetica; font-size: 12px; font-style: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: auto; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration: none; text-align: justify;&quot;&gt;&amp;nbsp;(1 if met, 0 otherwise)&amp;nbsp;&lt;/div&gt;&lt;div style=&quot;caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: Helvetica; font-size: 12px; font-style: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: auto; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration: none; text-align: justify;&quot;&gt;-&amp;gt; Calculate total score&amp;nbsp;&lt;/div&gt;" style="whiteSpace=wrap;html=1;align=left;rounded=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="400" y="235" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="6YaIAryfn6PBqcQ6-zPC-20" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="6YaIAryfn6PBqcQ6-zPC-15" target="6YaIAryfn6PBqcQ6-zPC-19">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="6YaIAryfn6PBqcQ6-zPC-15" value="&amp;nbsp; Highest Score?" style="rhombus;whiteSpace=wrap;html=1;align=center;rounded=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="275" y="390" width="190" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="6YaIAryfn6PBqcQ6-zPC-17" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" target="6YaIAryfn6PBqcQ6-zPC-15">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="500" y="325" as="sourcePoint" />
+            <mxPoint x="550" y="275" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="500" y="360" />
+              <mxPoint x="370" y="360" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="6YaIAryfn6PBqcQ6-zPC-27" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="6YaIAryfn6PBqcQ6-zPC-19" target="6YaIAryfn6PBqcQ6-zPC-26">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="6YaIAryfn6PBqcQ6-zPC-19" value="document compliant?&lt;div&gt;&amp;gt;= 80%&lt;/div&gt;" style="rhombus;whiteSpace=wrap;html=1;align=center;rounded=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="260" y="460" width="220" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="6YaIAryfn6PBqcQ6-zPC-31" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="6YaIAryfn6PBqcQ6-zPC-26" target="6YaIAryfn6PBqcQ6-zPC-30">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="6YaIAryfn6PBqcQ6-zPC-26" value="Classification&lt;div&gt;Result&lt;/div&gt;" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;rounded=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="310" y="540" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="6YaIAryfn6PBqcQ6-zPC-29" value="Stage 1" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="60" y="155" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="6YaIAryfn6PBqcQ6-zPC-34" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="6YaIAryfn6PBqcQ6-zPC-30">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="300" y="680" as="sourcePoint" />
+            <mxPoint x="150" y="770" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="370" y="740" />
+              <mxPoint x="150" y="740" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="6YaIAryfn6PBqcQ6-zPC-30" value="Document&lt;div&gt;Content&lt;/div&gt;&lt;div&gt;evaluation&lt;/div&gt;&lt;div&gt;(Rubric-based)&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="310" y="650" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="6YaIAryfn6PBqcQ6-zPC-32" value="Stage 2" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="70" y="665" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="6YaIAryfn6PBqcQ6-zPC-42" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="6YaIAryfn6PBqcQ6-zPC-33" target="6YaIAryfn6PBqcQ6-zPC-41">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="6YaIAryfn6PBqcQ6-zPC-33" value="&lt;div&gt;Total Score: [X/10] &amp;nbsp;&amp;nbsp;&lt;/div&gt;&lt;div&gt;Score Reasoning:&lt;/div&gt;&lt;div&gt;&lt;div&gt;Missing Criteria: [List of criteria not met] &amp;nbsp;&amp;nbsp;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Feedback: [Suggestions for improvement]&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=1;align=left;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="100" y="770" width="240" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="6YaIAryfn6PBqcQ6-zPC-41" value="&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;Compliant/&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; Not compliant&lt;/div&gt;" style="rhombus;whiteSpace=wrap;html=1;align=left;rounded=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="420" y="755" width="160" height="110" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
