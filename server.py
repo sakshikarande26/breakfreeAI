@@ -46,8 +46,8 @@ class PromptRequest(BaseModel):
     content_theme: str
     target_industry: str
 
+# Update the ChatRequest model
 class ChatRequest(BaseModel):
-    session_id: str
     user_input: str
 
 # Function to create a prompt template
@@ -163,6 +163,7 @@ async def chat_with_assistant(request: ChatRequest):
         return {"response": response}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
 
 @app.get("/")
 async def read_root():
